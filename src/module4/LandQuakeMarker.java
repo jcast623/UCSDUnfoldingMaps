@@ -34,6 +34,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		
 		// TODO: Implement this method
 		
+		pg.ellipse(x, y, Float.parseFloat(getProperty("radius").toString()), Float.parseFloat(getProperty("radius").toString()));
 	}
 	
 
