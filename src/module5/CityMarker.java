@@ -3,8 +3,6 @@ package module5;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
-import de.fhpotsdam.unfolding.marker.SimplePointMarker;
-import processing.core.PConstants;
 import processing.core.PGraphics;
 
 /** Implements a visual marker for cities on an earthquake map
@@ -16,7 +14,7 @@ import processing.core.PGraphics;
 // TODO: Change SimplePointMarker to CommonMarker as the very first thing you do 
 // in module 5 (i.e. CityMarker extends CommonMarker).  It will cause an error.
 // That's what's expected.
-public class CityMarker extends SimplePointMarker {
+public class CityMarker extends CommonMarker {
 	
 	public static int TRI_SIZE = 5;  // The size of the triangle marker
 	
@@ -35,7 +33,7 @@ public class CityMarker extends SimplePointMarker {
 	/**
 	 * Implementation of method to draw marker on the map.
 	 */
-	public void draw(PGraphics pg, float x, float y) {
+/*	public void draw(PGraphics pg, float x, float y) {
 		// Save previous drawing style
 		pg.pushStyle();
 		
@@ -45,13 +43,24 @@ public class CityMarker extends SimplePointMarker {
 		
 		// Restore previous drawing style
 		pg.popStyle();
-	}
+	}*/
 	
 	/** Show the title of the city if this marker is selected */
 	public void showTitle(PGraphics pg, float x, float y)
 	{
 		
 		// TODO: Implement this method
+		pg.pushStyle();
+		String name = getCity() + ", " + getCountry() + ", " + getPopulation();
+		pg.fill(255, 250, 240);
+		
+		pg.textSize(10);
+		pg.rect(x, y, pg.textWidth(name)+4, 14);
+		
+		pg.fill(0);
+		
+		pg.text(name, x+2, y+12);
+		pg.popStyle();
 	}
 	
 	
@@ -71,5 +80,20 @@ public class CityMarker extends SimplePointMarker {
 	public float getPopulation()
 	{
 		return Float.parseFloat(getStringProperty("population"));
+	}
+
+
+	@Override
+	public void drawMarker(PGraphics pg, float x, float y) {
+		// TODO Auto-generated method stub
+		// Save previous drawing style
+				pg.pushStyle();
+				
+				// IMPLEMENT: drawing triangle for each city
+				pg.fill(150, 30, 30);
+				pg.triangle(x, y-TRI_SIZE, x-TRI_SIZE, y+TRI_SIZE, x+TRI_SIZE, y+TRI_SIZE);
+				
+				// Restore previous drawing style
+				pg.popStyle();
 	}
 }
