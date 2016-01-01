@@ -85,7 +85,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -116,8 +116,11 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
-	 		
+	    //printQuakes();
+	 	sortAndPrint(5);
+	 	System.out.println("------------------------------------------------");
+	 	sortAndPrint(20);
+	 	
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -139,6 +142,28 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint){
+		Object[] quakeArray = quakeMarkers.toArray();
+		//quakeArray = (EarthquakeMarker[]) quakeArray;
+		
+		Arrays.sort(quakeArray);
+		
+		int bound = (numToPrint > quakeArray.length) ? quakeArray.length : numToPrint;
+		int i = 0;
+		
+		int strength = 1;
+		
+		while(i < bound){
+			float mag = ((EarthquakeMarker) quakeArray[i]).getMagnitude();
+			System.out.println(strength + ": " + ((EarthquakeMarker) quakeArray[i]).getTitle());
+			i++;
+			
+			if(mag > ((EarthquakeMarker) quakeArray[i]).getMagnitude())
+				strength++;
+			
+		}
+		
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
@@ -352,6 +377,7 @@ public class EarthquakeCityMap extends PApplet {
 	// the quakes to count how many occurred in that country.
 	// Recall that the country markers have a "name" property, 
 	// And LandQuakeMarkers have a "country" property set.
+	@SuppressWarnings("unused")
 	private void printQuakes() {
 		int totalWaterQuakes = quakeMarkers.size();
 		for (Marker country : countryMarkers) {
